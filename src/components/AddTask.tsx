@@ -1,64 +1,66 @@
 import { useState } from "react";
 import TaskList from "./TaskList";
-import { editTextType } from "../interfaces";
+import { editTextType, userType } from "../interfaces";
+import { v4 as uuidv4 } from "uuid";
 
 const AddTask = () => {
-  const [tasks, setTasks] = useState<string[]>([]);
-  const [value, setValue] = useState<string>("");
-  const [edit, setEdit] = useState(false);
+  const [users, setUsers] = useState<userType[]>([]);
+  const [id, setId] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [displayName, setDisplayName] = useState<string>("");
+  const [role, setRole] = useState<string>("");
+  // const [role, setRole] = useState(false);
+
   const [editText, setEditText] = useState<editTextType>({
     id: -1,
     task: "",
   });
-
   const hanleOnClick = (e: any) => {
-    console.log(editText);
-    // console.log(typeof e);
     e.preventDefault();
-    if (edit) {
-      setEdit(false);
-      const newTasks = tasks.map((taskText, id) =>
-        id === editText.id ? editText.task : taskText
-      );
-
-      setTasks(newTasks);
-      setEditText({
-        id: -1,
-        task: "",
-      });
-    } else {
-      setTasks([...tasks, value]);
-      setValue("");
-    }
+    const newUser: userType = {
+      id: uuidv4(),
+      name: name,
+      displayName: displayName,
+      role: role,
+    };
+    console.log(newUser);
+    setUsers([...users, newUser]);
+    console.log(users);
+    setId("");
+    setName("");
+    setDisplayName("");
+    setRole("");
   };
 
   return (
     <div>
-      <TaskList
+      {/* <TaskList
         tasks={tasks}
         setTasks={setTasks}
         setEdit={setEdit}
         setEditText={setEditText}
-      />
-      <h1>Add Task</h1>
+      /> */}
+      <h1>Add Users</h1>
       <form>
-        {edit ? (
-          <input
-            type="text"
-            value={editText.task}
-            onChange={(e) => {
-              // console.log("edit text")
-              // console.log(e.target.value)
-              setEditText({ id: editText.id, task: e.target.value });
-            }}
-          />
-        ) : (
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        )}
+        <input
+          type="text"
+          placeholder="input name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="input disPlayname"
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="input role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        />
+
         <button onClick={hanleOnClick} type="submit">
           Add
         </button>
