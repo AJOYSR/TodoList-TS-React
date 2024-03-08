@@ -1,11 +1,6 @@
 import { AddTaskProps } from "../destructured";
 
-const TaskList = ({
-  tasks,
-  setTasks,
-  setEdit,
-  setEditText,
-}: AddTaskProps) => {
+const TaskList = ({ tasks, setTasks, setEdit, setEditText }: AddTaskProps) => {
   const handleDelete = (id: number) => {
     const newTasks = [...tasks];
     newTasks.splice(id, 1);
